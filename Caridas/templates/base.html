@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+    <head> 
+        <meta charset="utf-8"/> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> CariDas </title>
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'styles/mainBase.css' %}">
+    </head>
+    <body>
+        <hr class="LineaHorizontal">
+        <nav>
+            <ul>
+                <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}"><img id="LogoCaritas" src="{% static 'LogoCaritasRectangular.png' %}" alt="logo_caritas"></a></li>
+                <li><a href="{% url 'Filiales:list_filiales' %}" class="Navegation"> Filiales </a></li>
+                <li><a href="{% url 'Usuario:opciones_trueque' %}" class="Navegation"> Trueques </a></li>
+                <li><a href="{% url 'Donaciones:donar' %}" class="Navegation"> Donaciones </a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'Pantalla_principal:listar_notificaciones' %}" class="notification-icon">
+                    <img src="{% static 'campana.png' %}" alt="Notificaciones">
+                    {% if notificaciones_no_leidas > 0 %}
+                        <span class="badge badge-primary">{{ notificaciones_no_leidas }}</span>
+                    {% endif %}
+                </a></li>
+                {% endif %}
+                </a></li>
+                {% if user.is_authenticated %}
+                    {% if user.id == 1 %}
+                        <li><a href="{% url 'vista_admin' %}"><img id="LogoUsuario" src="{% static 'logo_caritas.png' %}"> </a></li>
+                    {% elif user.is_ayudante %}
+                        <li><a href="{% url 'Ayudante:vista_ayudante' %}"><img id="LogoUsuario" src="{% static 'logo_caritas.png' %}"> </a></li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:editar_perfil' %}"><img id="LogoUsuario" src="{% if user.profile_picture %}{% static user.profile_picture %}{% else %}{% static 'usuarioDefault.png' %}{% endif %}"> </a></li>
+                    {% endif %}
+                    <li><a href="{% url 'accounts:logout' %}"  id="Cerrar-Sesion"> Cerrar Sesión </a></li>
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}" id="Acceder">Acceder</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <hr class="LineaHorizontal">
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>

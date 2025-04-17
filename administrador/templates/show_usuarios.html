@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+<title>Lista Vertical</title>
+
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'show_usuarios' %}" class="Navegation">Usuarios</a></li>
+            <li><a href="{% url 'show_productos' %}" class="Navegation">Productos</a></li>
+            <li><a href="{% url 'show_trueques' %}" class="Navegation">Trueques</a></li>
+            <li><a href="{% url 'vista_admin' %}">Volver</a></li>
+        </ul>
+    </div>
+    <div class="linea-vertical"></div>
+    <div class="contenido">
+        <h1>Lista de Usuarios</h1>
+        <!-- Create a table to display the users -->
+        <table>
+            <thead>
+                <tr>
+                    <!-- <th>Id</th> -->
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Bloqueado</th>
+                    <th>Acciones</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through the usuarios list and display each user's info -->
+                {% for usuario in usuarios %}
+                <tr>
+                    <!--  <td>{{ usuario.id }}</td> -->
+                    <td>{{ usuario.first_name }}</td>
+                    <td>{{ usuario.last_name }}</td>
+                    <td>{{ usuario.mail }}</td>
+                    <td>
+                        {% if usuario.blocked %}
+                        Sí
+                        {% else %}
+                        No
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'show_usuarios' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="block">
+                            <input type="hidden" name="user_id" value="{{ usuario.id }}">
+                            <button type="submit" class="btn btn-danger">Bloquear</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'show_usuarios' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="view_profile">
+                            <input type="hidden" name="user_id" value="{{ usuario.id }}">
+                            <button type="submit" class="btn btn-info">Ver Perfil</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'show_usuarios' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="edit_profile">
+                            <input type="hidden" name="user_id" value="{{ usuario.id }}">
+                            <button type="submit" class="btn btn-info">Editar Perfil</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

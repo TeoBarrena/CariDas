@@ -1,0 +1,14 @@
+<!--Aca va el cuerpo que se muestra en el mail, numero es generado en views.py-->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Ingresa el código que enviamos a tu mail: {{ mail }}</h1>
+    {% if error_codigo_ingresado %}
+        <h4>El codigo ingresado es inválido</h4>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="codigo" required="true">
+        <input type="submit" value="Validar código">
+    </form>
+{% endblock %}

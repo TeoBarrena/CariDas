@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'Usuario:show_productos_usuario' %}" class="Navegation"> Mis Productos </a></li>
+            <li><a href="{% url 'Usuario:show_trueques_usuario' %}" class="Navegation"> Mis Trueques </a></li>
+            <li><a href="{% url 'busqueda:listar_Trueques' %}" class="Navegation"> Buscar Trueques </a></li>
+            <li><a href="{% url 'Intercambiar_puntos:seleccionar_categoria' %}" class="Navegation"> Intercambiar Puntos </a></li>
+            <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}"> Volver </a></li>
+        </ul>
+    </div>
+    <div class="linea-vertical"></div>
+    <div class="contenido">
+    <h1>Intercambiar puntos</h1>
+    <div class="tab-content">
+        <h4>Tus puntos son: {{ puntos_usuario }} </h4>
+        {% if error_puntos %}
+            <h4>Puntos insuficientes, para intercambiar puntos por esa categoria necesitas minimo: {{ puntos_necesarios }} puntos</h4>
+        {% endif %}
+        {% if intercambio_exitoso %}
+            <h4>Intercambio de puntos exitoso, te enviamos a tu mail el código del ticket para que lo valides con un ayudante en la filial, y la fecha de caducidad del mismo</h4>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Intercambiar puntos</button>
+        </form>
+</div>
+
+{% endblock %}
+

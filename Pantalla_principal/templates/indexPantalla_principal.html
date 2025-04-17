@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% csrf_token %}
+<link rel="stylesheet" href="{% static 'styles/mainPantalla_principal.css' %}">
+<link rel="stylesheet" href="{% static 'styles/mainPantalla_principal.css' %}">
+<div class="container">
+    {% if user.is_authenticated %}
+        {% if user.id == 1 %}
+            <a href="{% url 'Noticias:agregar_noticia' %}" class="add-noticia-link">Agregar Noticia</a>
+        {% endif %}
+    {% endif %}
+    <ul>
+    {% if noticias %}
+    {% for noticia in noticias %}
+        <div class="Articulos">
+            <article>
+                <li>
+                    <time>{{ noticia.fecha_creado|date:"d M Y H:i"}}</time>
+                    <h1>{{ noticia.titulo }}</h1>
+                    <p>{{ noticia.descripcion }}</p>
+                    <img src="{{ noticia.foto.url }}" alt="Foto de {{ noticia.titulo }}">
+                    {% if user.is_authenticated %}
+                        {% if user.id == 1 %}
+                            <form method="post" action="{% url 'Noticias:delete_noticia' %}" style="display:inline;" onsubmit="confirmDeletion(event)">
+                                {% csrf_token %}
+                                <input type="hidden" name="noticia_id" value="{{ noticia.id }}">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                            <form method="post" action="{% url 'Noticias:set_noticia_id' %}" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="noticia_id" value="{{ noticia.id }}">
+                                <button type="submit" class="btn btn-primary btn-sm">Modificar</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            </article>
+        </div>
+    {% endfor %}
+    {% else %}
+        <p>No hay noticias disponibles en este momento.</p>
+    {% endif %}
+<script>
+    function confirmDeletion(event) {
+        event.preventDefault();
+        if (confirm("¿Estás seguro de que deseas eliminar esta noticia?")) {
+            event.target.submit();
+        }
+    }
+</script>
+
+{% endblock %}

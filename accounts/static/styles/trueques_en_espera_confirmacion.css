@@ -1,0 +1,81 @@
+
+ul {
+    list-style-type: none; /* Pra q no aparezcan los puntso negros */
+}
+
+img{
+    max-height: 200px;
+    min-height: auto;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.trueque-producto {
+    border: 1px solid #f52626;
+    padding: 20px;
+    margin: 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.trueque-producto img {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.ofertas {
+    list-style-type: none;
+    padding: 0;
+}
+
+.oferta-item {
+    border: 1px solid #f52626;
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.producto {
+    display: flex;
+    align-items: center;
+}
+
+.producto img {
+    max-width: 150px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.info {
+    flex-grow: 1;
+}
+
+.botones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: auto;
+    
+}
+
+.botones button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #14518b;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.botones button:hover {
+    background-color: #0056b3;
+}

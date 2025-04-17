@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<h1>Eliminar Filial</h1>
+<p>¿Estás seguro de que deseas eliminar la filial "{{ filial.direccion }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'Filiales:list_filiales' %}">Cancelar</a>
+</form>
+
+
+
+{% endblock %}

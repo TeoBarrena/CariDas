@@ -1,0 +1,56 @@
+.navbar{
+    background-color: red;
+    display: flex;
+    height: 100px;
+    width: 100%;    
+}
+
+.navbar img{
+    margin-left: 43%;
+}
+
+.navbar h1{
+    margin-top: 40px;
+}
+
+.username {
+    margin: 50px 0px 0px 35%;
+    display:block;
+}
+
+.password {
+    margin: 10px 0px 0px 35%;
+    display:inline;
+}
+
+.password input{
+    margin-left: 35%;
+    display:block;
+}
+
+.ingresar{
+    margin-left: 43.7%;
+    margin-top: 10px;
+}
+
+.footer{
+    background-color: rgb(44, 23, 236);
+    margin-top: 25%;
+    height: 40px;
+    text-align: center;
+    color: white;
+}
+
+.registrarse_ingresar{
+    height: 30px;
+}
+
+.registrarse_ingresar a{
+    margin-right: 10px;
+    margin-left: 35%;
+    font-size: 15px;
+}
+
+.registrarse_ingresar button{
+    margin-left: 10px;    
+}

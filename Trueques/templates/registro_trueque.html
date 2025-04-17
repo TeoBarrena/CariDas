@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+{% if sin_productos %}
+    <h4>No tienes productos disponibles para crear un trueque.</h4>
+{% else %}
+    <form method="post">
+        {% csrf_token %}
+        {% if error_estrellas %}
+            <h4>Error en el registro del trueque, tienes menos de 3 estrellas</h4>
+        {% endif %}
+        {% if max_trueques_pendientes %}
+            <h4>Error en el registro del trueque, superas el límite de trueques pendientes (5)</h4>
+        {% endif %}
+        {% if producto_ya_cargado %}
+            <h4>Error en el registro del trueque, ese producto ya se encuentra cargado en uno de tus trueques pendientes</h4>
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit">Crear Trueque</button>
+    </form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if error %}
+        <h4>El código ingresado es incorrecto. Por favor, inténtalo de nuevo.</h4>
+    {% endif %}
+    <p>Ingrese el código que se le envió al correo electrónico <b>{{ mail }}:</b></p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="codigo">
+        <button type="submit">Verificar Código</button>
+        <input type="hidden" name="mail" value="{{ mail }}">
+        <input type="hidden" name="numero" value="{{ numero }}">
+    </form>
+
+{% endblock %}

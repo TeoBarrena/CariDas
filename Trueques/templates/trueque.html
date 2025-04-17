@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/trueque.css' %}">
+<h4>Recorda que para este trueque solo podes ofertar productos de la categoria {{ trueque.producto.categoria }}</h4>
+
+<div class="producto-container">
+    <div class="producto-original">
+        <h4>{{ trueque.producto.titulo }}</h4>
+        <h5>Estado: {{ trueque.estado }}</h5>
+        <img class="img_original" src="{% static trueque.foto_producto.url %}" alt="{{ trueque.producto.titulo }}">
+        <p>{{ trueque.producto.descripcion }}</p>
+    </div>
+
+    <div class="productos-usuario">
+        {% if vacio %}
+            <h5>No tenes ningun producto cargado en la categoria {{ trueque.producto.categoria }}</h5>
+        {% else %}
+            <ul>
+                {% for producto in productos_del_usuario %}
+                    <li class="producto">
+                        <p>{{ producto.titulo }}</p>
+                        <img src="{% static producto.foto_producto.url %}" alt="{{ producto.titulo }}">
+                        <p>{{ producto.descripcion }}</p>
+                        <button onclick="seleccionarProducto('{{ producto.id }}')">Ofertar</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    function seleccionarProducto(productoId) {
+        console.log("Producto seleccionado:", productoId);
+        const truequeId = "{{ trueque.id }}";
+        console.log("Trueque ID:", truequeId);
+
+        const url = "{% url 'Trueques:procesar_oferta' %}";
+        console.log("URL de la solicitud:", url);
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({ producto_id: productoId, trueque_id: truequeId })
+        })
+        .then(response => {
+            console.log("Respuesta recibida:", response);
+            return response.json();
+        })
+        .then(data => {
+            console.log("Datos de respuesta:", data);
+            if (data.success) {
+                alert("Producto ofertado exitosamente.");
+            } else {
+                alert("Error al ofertar el producto: " + data.error);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+{% endblock %}
+{% endblock %}

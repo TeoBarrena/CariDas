@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/mainFiliales.css' %}">
+<div class="body">
+    <div class="container mt-5">
+        <h1><u> Lista de Filiales </u></h1>
+        <div class="list-group">
+            <div class="list-group-item">
+                <ul>
+                    {% for filial in filiales %}
+                    <tr>
+                        <h4>{{ filial.nombre }} :</h4>
+                        <td>{{ filial.direccion }}</td>
+                        {% if user.is_authenticated %}
+                            {% if user.id == 1 %}
+                                <td>
+                                    <a href="{% url 'Filiales:set_filial_id' filial.id %}?next={% url 'Filiales:modify_filial' %}">Modificar</a>
+                                    <form method="post" action="{% url 'Filiales:list_filiales' %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="filial_id" value="{{ filial.id }}">
+                                        <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Eliminar</button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                    <br>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if user.is_authenticated %}
+                {% if user.id == 1 %}
+                    <a class="btn-custom" href="{% url 'Filiales:create_filial' %}">Crear nueva filial</a>
+                    <a href="{% url 'vista_admin' %}" class="btn btn-default">Volver</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete() {
+        return confirm('¿Estás seguro de que deseas eliminar esta filial  y su ayudante?');
+    }
+</script>
+
+</div>
+
+{% endblock %}

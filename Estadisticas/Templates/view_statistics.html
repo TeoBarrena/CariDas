@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas</title>
+</head>
+<body>
+    <h1>Estadísticas del Sistema</h1>
+    {% if stats_summary %}
+    <li><a href="{% url 'Estadisticas:estadisticas_pdf' %}?area_chart_type={{ selected_area_chart_type }}" class="Navegation"> Descargar Estadisticas </a></li>
+        <h2>Grafico de Barras</h2>
+        <img src="data:image/png;base64,{{ bar_chart }}" alt="Gráfico de Barras">
+        <h2>Grafico de Torta</h2>
+        <img src="data:image/png;base64,{{ pie_chart }}" alt="Gráfico de Torta">
+        
+        <h2>Grafico de Areas</h2>
+        <form method="get" action="{% url 'Estadisticas:view_statistics' %}">
+            <label for="area_chart_type">Seleccione el tipo de grafico de areas:</label>
+            <select id="area_chart_type" name="area_chart_type">
+                <option value="edades">Edades de Usuarios</option>
+                <option value="categorias">Categorias de Trueques</option>
+            </select>
+            <button type="submit">Mostrar Grafico</button>
+        </form>
+        {% if area_chart %}
+            <img src="data:image/png;base64,{{ area_chart }}" alt="Gráfico de Áreas">
+        {% endif %}
+    {% else %}
+        <p>{{ message }}</p>
+    {% endif %}
+</body>
+{% endblock %}

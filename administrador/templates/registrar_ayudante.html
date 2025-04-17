@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/registrar_usuario.css' %}">
+{% if error_cantidad_filiales %}
+        <h4>No hay filiales disponibles</h4>
+{% else %}
+    <form method="post" enctype="multipart/form-data">
+        <section class="form-register">
+            <h4>Registre un ayudante en CariDas</h4>
+            {% csrf_token %}
+            {% if error_dni %}
+            <h4>Ya existe un usuario registrado con ese DNI</h4>
+            {% endif %}
+            {% if error_mail %}
+            <h4>Ya existe un usuario registrado con ese mail</h4>
+            {% endif %}
+            {% if error_contraseñas %}
+            <h4>Las contraseñas ingresadas son distintas</h4>
+            {% endif %}
+            {% if error_prefijo %}
+            <h4>El número de celular debe pertenecer a La Plata (empezar con 221)</h4>
+            {% endif %}
+            {% if error_cant_numeros %}
+            <h4>El número de celular debe tener 10 digitos (ej: 2216370028)</h4>
+            {% endif %}
+            {% if error_estructura_contrasena %}
+            <h4>La contraseña debe ser alfanumerica y contener minimo 6 caracteres (ej: hola123)</h4>
+            {% endif %}
+            {% if error_edad %}
+            <h4>Debes ser mayor de edad para poder registrarte en la página</h4>
+            {% endif %}
+            {% for field in form %}
+            <div class="field-wrapper">
+                {{ field }}
+            </div>
+            {% endfor %}
+            <button class="button" type="submit">Registrar</button>
+            <a href="{% url 'vista_admin' %}">Volver</a>
+        </section>
+    </form>
+{% endif %}
+
+{% endblock %}

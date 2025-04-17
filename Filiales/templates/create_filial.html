@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/mainFiliales.css' %}">
+<style>
+    .body {
+        font-family: 'Montserrat', Times, serif;
+        font-size: 20px;
+    }
+</style>
+
+<div class="body">
+    <div class="container mt-5">
+        <h1><u> Crear Filial </u></h1>
+        <div class="list-group">
+            <div class="list-group-item location-item">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-warning btn-custom" type="submit">Save</button>
+                    <a href="{% url 'Filiales:list_filiales' %}" class="btn btn-default">Volver</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'Ayudante:Ver_Trueques_filial' %}" class="Navegation">Ver Trueques Filial</a></li>
+            <li><a href="{% url 'Ayudante:Validar_ticket_usuario' %}" class="Navegation active">Validar Ticket
+                    usuario</a></li>
+            <li><a href="{% url 'Ayudante:validar_codigo_trueque' %}" class="Navegation active">Validar Código
+                    Trueque</a></li>
+            <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}">Volver</a></li>
+        </ul>
+    </div>
+    <div class="linea-vertical"></div>
+    <div class="contenido">
+        <h1>Permitir reseña</h1>
+        <h4>Ingresa el DNI y código de la persona que acudió a la sede para realizar el intercambio</h4>
+        {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="field-wrapper">
+                <label for="dni">DNI:</label>
+                <input type="text" id="dni" name="dni" required>
+            </div>
+            <div class="field-wrapper">
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo" name="codigo" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Permitir reseña</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

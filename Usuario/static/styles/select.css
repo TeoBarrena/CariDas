@@ -1,0 +1,70 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sidebar {
+    background-color: #ffffff;
+}
+
+ul li {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 2%;
+    color: #07447e;
+    font-family: 'Montserrat', Times, serif;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 10px;
+}
+
+h3 {
+    font-family: 'Montserrat', Times, serif;
+    font-size: 26px;
+}
+
+.linea-vertical {
+    width: 2px;
+    height: 700px;
+    /* Puedes ajustar la altura según tus necesidades */
+    background-color: #911a1a;
+    margin: 0 10px;
+}
+
+.contenido {
+    padding-left: 20px;
+    /* Espacio opcional para separar el contenido de la línea */
+    justify-content: center;
+    /* Centra el contenido horizontalmente */
+    align-items: center;
+    /* Centra el contenido verticalmente */
+    flex-grow: 1;
+    /* Permite que este div ocupe el espacio restante */
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+}
+
+.btn-custom {
+    display: inline-block;
+    font-weight: 500;
+    color: white;
+    text-align: center;    
+    background-color: #14518b;
+    border-color: #14518b;
+}

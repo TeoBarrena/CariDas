@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'Usuario:show_productos_usuario' %}" class="Navegation"> Mis Productos </a></li>
+            <li><a href="{% url 'Usuario:show_trueques_usuario' %}" class="Navegation"> Mis Trueques </a></li>
+            <li><a href="{% url 'busqueda:listar_Trueques' %}" class="Navegation"> Buscar Trueques </a></li>
+            <li><a href="{% url 'Intercambiar_puntos:seleccionar_categoria' %}" class="Navegation"> Intercambiar Puntos </a></li>
+            <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}"> Volver </a></li>
+        </ul>
+    </div>
+    <div class="linea-vertical"></div>
+    <div class="contenido">
+        <h1>Lista de Productos</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Categoría</th>
+                    <th>Foto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.titulo }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.estado }}</td>
+                    <td>{{ producto.categoria }}</td>
+                    <td>
+                        <img src="{% static producto.foto_producto.url %}" alt="{{ producto.titulo }}" style="width: 100px; height: auto;">
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'Usuario:show_productos_usuario' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="producto_id" value="{{ producto.id }}">
+                            <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Botón para agregar nuevo producto -->
+        <div>
+            <a href="{% url 'Productos:create_product' %}" class="btn-custom">Agregar Producto</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete() {
+        return confirm('¿Estás seguro de que deseas eliminar este producto?');
+    }
+</script>
+
+{% endblock %}

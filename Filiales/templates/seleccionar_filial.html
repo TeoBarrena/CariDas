@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/mainFiliales.css' %}">
+<div class="body">
+    <div class="container mt-5">
+        <h1><u> Seleccione una filial </u></h1>
+        <div class="list-group">
+            <ul>
+                {% for filial in filiales %}
+                    <div class="list-group-item">
+                        <div class="filial">
+                            <h3>{{ filial.nombre }}</h3>
+                            <p>{{ filial.direccion }}</p>
+                            <form method="post" action="{% url 'Filiales:select_filial' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="filial_id" value="{{ filial.id }}">
+                                <button type="submit" class="btn btn-primary">Ver Datos Filial</button>
+                            </form>
+                        </div>
+                    </div>
+                    <br> 
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

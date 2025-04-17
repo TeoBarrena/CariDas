@@ -1,0 +1,23 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas</title>
+</head>
+<body>
+    <h1>Estadisticas del Sistema</h1>
+    {% if stats_summary %}
+        <h2>Grafico de Barras</h2>
+        <img src="data:image/png;base64,{{ bar_chart }}" alt="Gráfico de Barras">
+        <h2>Grafico de Torta</h2>
+        <img src="data:image/png;base64,{{ pie_chart }}" alt="Gráfico de Torta">
+        
+        <h2>Grafico de Areas</h2>
+        <form method="get" action="{% url 'Estadisticas:view_statistics' %}">
+        </form>
+        {% if area_chart %}
+            <img src="data:image/png;base64,{{ area_chart }}" alt="Gráfico de Áreas">
+        {% endif %}
+        
+    {% else %}
+        <p>{{ message }}</p>
+    {% endif %}
+</body>

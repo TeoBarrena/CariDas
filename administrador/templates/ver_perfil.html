@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Perfil del Usuario</h1>
+<link rel="stylesheet" href="{% static 'styles/ver_perfil.css' %}">
+<div class="profile">
+    <p><strong>Nombre de usuario:</strong> {{ usuario.first_name }}</p>
+    <p><strong>Mail del usuario:</strong> {{ usuario.mail }}</p>
+    <p><strong>Estrellas:</strong> 
+        {% for i in star_range %}
+            {% if i <= usuario.estrellas %}
+                <span>&#9733;</span> <!-- Estrella llena -->
+            {% else %}
+                <span>&#9734;</span> <!-- Estrella vacía -->
+            {% endif %}
+        {% endfor %}
+    </p>
+</div>
+
+<div class="contenido">
+    <button id="toggleTruequesButton" onclick="toggleVisibility('trueques', 'toggleTruequesButton')">Mostrar lista de Trueques</button>
+    <div id="trueques" style="display: none;">
+        <h1>Lista de Trueques del usuario</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Producto</th>
+                    <th>Descripción</th>
+                    <th>Estado del Producto</th>
+                    <th>Foto del Producto</th>
+                    <th>Estado del trueque</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trueque in trueques %}
+                <tr>
+                    <td>{{ trueque.titulo }}</td>
+                    <td>{{ trueque.producto }}</td>
+                    <td>{{ trueque.descripcion }}</td>
+                    <td>{{ trueque.estado }}</td>
+                    <td><img src="{% static trueque.foto_producto.url %}" alt="{{ trueque.titulo }}"></td>
+                    <td>{{ trueque.estado_trueque }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <button id="toggleProductosButton" onclick="toggleVisibility('productos', 'toggleProductosButton')">Mostrar lista de Productos</button>
+    <div id="productos" style="display: none;">
+        <h1>Lista de Productos del usuario</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Categoría</th>
+                    <th>Foto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.titulo }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.estado }}</td>
+                    <td>{{ producto.categoria }}</td>
+                    <td>
+                        <img src="{% static producto.foto_producto.url %}" alt="{{ producto.titulo }}" style="width: 100px; height: auto;">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<button id="toggleReseniasButton" onclick="toggleVisibility('resenas', 'toggleReseniasButton')">Mostrar lista de Reseñas</button>
+<div id="resenas" style="display: none;">
+    <h1>Lista de Reseñas del usuario</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Trueque</th>
+                <th>Estrellas</th>
+                <th>Comentario</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+            <tr>
+                <td>{{ review.trade.trueque_1.titulo }}</td>
+                <td>{{ review.estrellas }}</td>
+                <td>{{ review.comentario }}</td>
+                <td>{{ review.user.first_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    function toggleVisibility(contentId, buttonId) {
+        var element = document.getElementById(contentId);
+        var button = document.getElementById(buttonId);
+        if (element.style.display === "none") {
+            element.style.display = "block";
+            button.textContent = "Ocultar lista de " + contentId.charAt(0).toUpperCase() + contentId.slice(1);
+        } else {
+            element.style.display = "none";
+            button.textContent = "Mostrar lista de " + contentId.charAt(0).toUpperCase() + contentId.slice(1);
+        }
+    }
+</script>
+
+{% endblock %}

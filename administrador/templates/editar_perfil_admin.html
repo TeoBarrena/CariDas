@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .editable {
+        display: none;
+    }
+
+    .read-only {
+        display: inline-block;
+    }
+
+    .profile-picture {
+        display: inline-block;
+        margin: 10px 0;
+    }
+
+    .profile-picture img {
+        height: 100px;
+        width: 100px;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function toggleEdit(field) {
+        var readOnlyField = document.getElementById('read-' + field);
+        var editableField = document.getElementById('edit-' + field);
+        var editButton = document.getElementById('btn-' + field);
+
+        if (field === 'profile_picture') {
+            if (editableField.style.display === 'none' || editableField.style.display === '') {
+                editableField.style.display = 'inline-block';
+                readOnlyField.style.display = 'none';
+                editButton.innerText = 'Guardar';
+            } else {
+                var formData = new FormData();
+                formData.append('profile_picture', editableField.files[0]);
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                formData.append('field_name', field);
+
+                $.ajax({
+                    url: "{% url 'editar_perfil_admin' %}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload();
+                            editableField.style.display = 'none';
+                            readOnlyField.style.display = 'inline-block';
+                            editButton.innerText = 'Editar';
+                        } else {
+                            alert(response.error);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (editableField.style.display === 'none' || editableField.style.display === '') {
+                editableField.style.display = 'inline-block';
+                readOnlyField.style.display = 'none';
+                editButton.innerText = 'Guardar';
+            } else {
+                var newValue = editableField.value;
+                $.ajax({
+                    url: "{% url 'editar_perfil_admin' %}",
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'field_name': field,
+                        'new_value': newValue
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload();
+                            readOnlyField.innerText = newValue;
+                            editableField.style.display = 'none';
+                            readOnlyField.style.display = 'inline-block';
+                            editButton.innerText = 'Editar';
+                        } else {
+                            alert(response.error);
+                        }
+                    }
+                });
+            }
+        }
+    }
+</script>
+<div class="body">
+    <link rel="stylesheet" href="{% static 'styles/mainFiliales.css' %}">
+    <h1><u> Editar Perfil </u></h1>
+    <div>
+        <label>Nombre:</label>
+        <span id="read-first_name" class="read-only">{{ user.first_name }}</span>
+        <input id="edit-first_name" class="editable" type="text" value="{{ user.first_name }}">
+        <button type="button" id="btn-first_name" onclick="toggleEdit('first_name')">Editar</button>
+    </div>
+
+    <div>
+        <label>Apellido:</label>
+        <span id="read-last_name" class="read-only">{{ user.last_name }}</span>
+        <input id="edit-last_name" class="editable" type="text" value="{{ user.last_name }}">
+        <button type="button" id="btn-last_name" onclick="toggleEdit('last_name')">Editar</button>
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <span id="read-mail" class="read-only">{{ user.mail }}</span>
+        <input id="edit-mail" class="editable" type="email" value="{{ user.mail }}">
+        <button type="button" id="btn-mail" onclick="toggleEdit('mail')">Editar</button>
+    </div>
+
+    <div>
+        <label>Teléfono:</label>
+        <span id="read-num" class="read-only">{{ user.num }}</span>
+        <input id="edit-num" class="editable" type="text" value="{{ user.num }}">
+        <button type="button" id="btn-num" onclick="toggleEdit('num')">Editar</button>
+    </div>
+
+    <div>
+        <label>DNI:</label>
+        <span id="read-dni" class="read-only">{{ user.dni }}</span>
+        <input id="edit-dni" class="editable" type="text" value="{{ user.dni }}">
+        <button type="button" id="btn-dni" onclick="toggleEdit('dni')">Editar</button>
+    </div>
+
+    <div>
+        <label>Edad:</label>
+        <span id="read-age" class="read-only">{{ user.age }}</span>
+        <input id="edit-age" class="editable" type="number" value="{{ user.age }}">
+        <button type="button" id="btn-age" onclick="toggleEdit('age')">Editar</button>
+    </div>
+
+    <div>
+        <label>Filial:</label>
+        <span id="read-filial" class="read-only">{{ user.filial.direccion }}</span>
+        <select id="edit-filial" class="editable">
+            {% for filial in filiales %}
+            <option value="{{ filial.id }}" {% if filial.id == user.filial.id %}selected{% endif %}>
+                {{ filial.direccion }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="button" id="btn-filial" onclick="toggleEdit('filial')">Editar</button>
+    </div>
+
+    <div class="profile-picture">
+        <label>Foto de Perfil:</label><br>
+        <img id="read-profile_picture" class="read-only"
+            src="{% if user.profile_picture %}{% static user.profile_picture %}{% else %}{% static 'media/usuarioDefault.png' %}{% endif %}"
+            alt="Foto de Perfil"><br>
+        <input id="edit-profile_picture" class="editable" type="file">
+        <button type="button" id="btn-profile_picture" onclick="toggleEdit('profile_picture')">Editar</button>
+    </div><br>
+
+    <a href="{% url 'show_usuarios' %}"> Volver </a>
+</div>
+
+{% endblock %}

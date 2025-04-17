@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/mainList_category.css' %}">
+
+<script>
+    function confirmDeletion(event) {
+        event.preventDefault();
+        if (confirm("¿Estás seguro de que deseas eliminar esta categoría?")) {
+            event.target.submit();
+        }
+    }
+</script>
+
+
+<div class="linea-vertical"></div>
+<div class="contenido">
+    <h1 class="mb-4 text-center">Listar Categorías</h1>
+
+    <div class="d-flex justify-content-center">
+        <table class="table table-striped w-auto">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Puntos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                    <td>{{ categoria.nombre }}</td>
+                    <td>{{ categoria.puntos }}</td>
+                    <td>
+                        <form method="post" action="{% url 'Productos:delete_category' %}" style="display:inline;" onsubmit="confirmDeletion(event)">
+                            {% csrf_token %}
+                            <input type="hidden" name="categoria_id" value="{{ categoria.id }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="mt-5 text-center">Crear Nueva Categoría</h2>
+    <div class="d-flex justify-content-center">
+        <form method="post" class="form-inline">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'Productos:create_category' %}">Crear categoria</a>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function confirmDeletion(event) {
+        if (!confirm('¿Estás seguro de que deseas eliminar esta categoría y todos sus productos relacionados?')) {
+            event.preventDefault();
+        }
+    }
+</script>
+
+
+
+{% endblock %}

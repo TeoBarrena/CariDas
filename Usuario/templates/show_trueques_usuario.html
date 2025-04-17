@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+    {% csrf_token %}
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'Usuario:show_productos_usuario' %}" class="Navegation"> Mis Productos </a></li>
+            <li><a href="{% url 'Usuario:show_trueques_usuario' %}" class="Navegation"> Mis Trueques </a></li>
+            <li><a href="{% url 'busqueda:listar_Trueques' %}" class="Navegation"> Buscar Trueques </a></li>
+            <li><a href="{% url 'Intercambiar_puntos:seleccionar_categoria' %}" class="Navegation"> Intercambiar Puntos </a></li>
+            <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}"> Volver </a></li>
+        </ul>
+    </div>
+    <div class="linea-vertical"></div>
+    <div class="contenido">
+        <h1>Lista de Trueques</h1>
+        <div>
+            <a href="{% url 'Trueques:registro_trueque' %}" class="btn-custom">Agregar Trueque</a>
+        </div>
+        <h4><a href="{% url 'Trueques:ver_trueques_en_espera_de_confirmacion' %}">Trueques Aceptados({{ trueques_en_espera_de_confirmacion }})</a></h4>
+    
+        <div class="tab-content">
+            {% if messages %}
+            <ul class="messages" style="list-style: none;">
+                {% for message in messages %}
+                <b>
+                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                </b>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <div class="tab-pane fade show active" id="pendientes">
+                <h2>Trueques Pendientes</h2>
+                <table>
+                    {% if trueques_pendientes %}
+                    {% if trueques_pendientes %}
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Producto</th>
+                            <th>Descripcion</th>
+                            <th>Estado del Producto</th>
+                            <th>Foto Del Producto</th>
+                            <th>Acción</th>
+
+                        </tr>
+                    </thead>
+                    {% endif %}
+                    {% endif %}
+                    <tbody>
+                        {% for trueque in trueques_pendientes %}
+                            <tr>
+                                <td>{{ trueque.titulo }}</td>
+                                <td>{{ trueque.producto }}</td>
+                                <td>{{ trueque.descripcion }}</td>
+                                <td>{{ trueque.estado }}</td>
+                                <td>
+                                    <img src="{% static 'media/' %}{{ trueque.foto_producto }}" alt="{{ trueque.titulo }}" style="width: 100px; height: auto;">
+                                </td>
+                                <td>{{ trueque.estado_trueque }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'Usuario:show_trueques_usuario' %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="trueque_id" value="{{ trueque.id }}">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <p>No hay trueques Pendientes.</p>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <h2>Trueques Completados</h2>
+            <table>
+                {% if trueques_completados %}
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Producto</th>
+                        <th>Descripcion</th>
+                        <th>Estado del Producto</th>
+                        <th>Foto Del Producto</th>
+                        <th>Estado del trueque</th>
+                    </tr>
+                </thead>
+                {% endif %}
+                <tbody>
+                    {% for trueque in trueques_completados %}
+                    <tr>
+                        <td>{{ trueque.trueque_1.titulo }}</td>
+                        <td>{{ trueque.trueque_1.producto }}</td>
+                        <td>{{ trueque.trueque_1.descripcion }}</td>
+                        <td>{{ trueque.trueque_1.estado }}</td>
+                        <td>
+                            <img src="{% static 'media/' %}{{ trueque.trueque_1.foto_producto }}"
+                                alt="{{ trueque.trueque_1.titulo }}" style="width: 100px; height: auto;">
+                        </td>
+                        <td>{{ trueque.trueque_1.estado_trueque }}</td>
+                        {% if trueque.id not in reseñas_realizadas %}
+                            <td>
+                                <form method="post" action="{% url 'Reseñas:add_review' trueque.trueque_1.id %}"
+                                    style="display:inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="trueque_id" value="{{ trueque.trueque_1.id }}">
+                                    <button type="submit" class="btn btn-danger">Dejar Reseña</button>
+                                </form>
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <p>No hay trueques completados.</p>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="tab-pane fade" id="aceptados">
+                <h2>Trueques Aceptados</h2>
+                <table>
+                    {% if trueques_aceptados %}
+                    {% if trueques_aceptados %}
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Producto</th>
+                            <th>Descripcion</th>
+                            <th>Estado del Producto</th>
+                            <th>Foto Del Producto</th>
+
+                        </tr>
+                    </thead>
+                    {% endif %}
+                    {% endif %}
+                    <tbody>
+                        {% for trueque in trueques_aceptados %}
+                        <tr>
+                            <td>{{ trueque.trueque_1.titulo }}</td>
+                            <td>{{ trueque.trueque_1.producto }}</td>
+                            <td>{{ trueque.trueque_1.descripcion }}</td>
+                            <td>{{ trueque.trueque_1.estado }}</td>
+                            <td>
+                                <img src="{% static 'media/' %}{{ trueque.trueque_1.foto_producto }}"
+                                    alt="{{ trueque.trueque_1.titulo }}" style="width: 100px; height: auto;">
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <p>No hay trueques Aceptados.</p>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade" id="cancelados">
+                    <h2>Trueques Cancelados</h2>
+
+                    <h3>Como Creador</h3>
+                    <table>
+                        {% if trueques_cancelados_creador %}
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Producto</th>
+                                <th>Descripcion</th>
+                                <th>Foto Del Producto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        {% endif %}
+                        <tbody>
+                            {% for trueque in trueques_cancelados_creador %}
+                            <tr>
+                                <td>{{ trueque.trueque_1.titulo }}</td>
+                                <td>{{ trueque.trueque_1.producto }}</td>
+                                <td>{{ trueque.trueque_1.descripcion }}</td>
+                                <td>
+                                    <img src="{% static 'media/' %}{{ trueque.trueque_1.foto_producto }}"
+                                        alt="{{ trueque.trueque_1.titulo }}" style="width: 100px; height: auto;">
+                                </td>
+                                {% if trueque.id not in reseñas_realizadas %}
+                                    {% if trueque.fue_trueque %}
+                                    <td>
+                                        <form method="post" action="{% url 'Reseñas:add_review' trueque.trueque_1.id %}" style="display:inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="trueque_id" value="{{ trueque.trueque_1.id }}">
+                                            <button type="submit" class="btn btn-danger">Dejar Reseña</button>
+                                        </form>
+                                    </td>
+                                    {% endif %}
+                                {% endif %}
+                            </tr>
+                            {% empty %}
+                            <p>No hay trueques cancelados como creador.</p>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <h3>Como Ofertante</h3>
+                    <table>
+                        {% if trueques_cancelados_ofertante %}
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Producto</th>
+                                <th>Descripcion</th>
+                                <th>Foto Del Producto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        {% endif %}
+                        <tbody>
+                            {% for trueque in trueques_cancelados_ofertante %}
+                            <tr>
+                                <td>{{ trueque.producto_2.titulo }}</td>
+                                <td>{{ trueque.producto_2.producto }}</td>
+                                <td>{{ trueque.producto_2.descripcion }}</td>
+                                <td>
+                                    <img src="{% static 'media/' %}{{ trueque.producto_2.foto_producto }}"
+                                        alt="{{ trueque.producto_2.titulo }}" style="width: 100px; height: auto;">
+                                </td>
+                                {% if trueque.id not in reseñas_realizadas %}
+                                    {% if trueque.fue_producto %}
+                                        <td>
+                                            <form method="post" action="{% url 'Reseñas:add_review' trueque.trueque_1.id %}"
+                                                style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="trueque_id" value="{{ trueque.trueque_1.id }}">
+                                                <button type="submit" class="btn btn-danger">Dejar Reseña</button>
+                                            </form>
+                                        </td>
+                                    {% endif %}
+                                {% endif %}
+                            </tr>
+                            {% empty %}
+                            <p>No hay trueques cancelados como ofertante.</p>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

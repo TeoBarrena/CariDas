@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+<form method="post" enctype="multipart/form-data">
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="{% url 'Ayudante:Ver_Trueques_filial' %}" class="Navegation">Ver Trueques Filial</a></li>
+                <li><a href="{% url 'Ayudante:Validar_ticket_usuario' %}" class="Navegation active">Validar Ticket usuario</a></li>
+                <li><a href="{% url 'Ayudante:validar_codigo_trueque' %}" class="Navegation active">Validar Código Trueque</a></li>
+                <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}">Volver</a></li>
+            </ul>
+        </div>
+        <div class="linea-vertical"></div>
+        <div class="contenido">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <h4>El código ingresado es inválido</h4>
+                </div>
+            {% endif %}
+            {% if Error_fecha %}
+                <div class="alert alert-warning">
+                    <h4>El ticket ingresado expiró</h4>
+                </div>
+            {% endif %}
+            {% if categoria %}
+                <div class="alert alert-success">
+                    <h4>El código ingresado es válido y la categoría es {{ categoria.nombre }}</h4>
+                </div>
+            {% endif %}
+    
+            <h1>Validar Ticket Usuario</h1>
+            {% csrf_token %}
+            {% for field in form %} <!--Para que aparezca cada campo solo con su placeholder y no con su nombre-->
+                <div class="field-wrapper">
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Validar Ticket</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

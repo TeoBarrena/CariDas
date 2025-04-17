@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/trueques_en_espera_confirmacion.css' %}">
+
+<h1>Lista de Intercambios</h1>
+{% if intercambios %}
+    {% for intercambio in intercambios %}
+        {% if intercambio.trueque_1.estado_trueque == 'Pendiente' %}
+            <div class="trueque-producto">
+                <h2>El producto que deseas truequear:</h2>
+                <img src="{{ intercambio.trueque_1.foto_producto.url }}" alt="Foto del Trueque Original">
+                <p>{{ intercambio.trueque_1.titulo }}</p>
+                <p>{{ intercambio.trueque_1.descripcion }}</p>
+                <!-- Aquí puedes mostrar más información del trueque original -->
+            </div>
+            
+            <!-- Formulario de motivos de rechazo oculto inicialmente -->
+            <div id="motivos-{{ intercambio.id }}" class="motivos-rechazo" style="display: none;">
+                <form method="post" action="{% url 'Trueques:ver_trueques_en_espera_de_confirmacion' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="rechazar">
+                    <input type="hidden" name="intercambio_id" value="{{ intercambio.id }}">
+                    <label for="motivo_rechazo-{{ intercambio.id }}">Motivo del rechazo:</label>
+                    <select name="motivo_rechazo" id="motivo_rechazo-{{ intercambio.id }}" required>
+                        <option value="Me parece insuficiente el producto ofertado">Me parece insuficiente el producto ofertado</option>
+                        <option value="Busco ese producto en mejor estado">Busco ese producto en mejor estado</option>
+                        <option value="Mala reputación del usuario">Mala reputación del usuario</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+
+            <ul class="ofertas">
+                <li class="oferta-item">
+                    <div class="producto">
+                        <img src="{{ intercambio.producto_2.foto_producto.url }}" alt="Foto del Producto Ofertado">
+                        <div class="info">
+                            <p>{{ intercambio.producto_2.titulo }}</p>
+                            <p>Estado: {{ intercambio.producto_2.estado }}</p>
+                            <p>{{ intercambio.producto_2.descripcion }}</p>
+                        </div>
+                    </div>
+                    <div class="botones">
+                        <button><a href="{% url 'ver_perfil' intercambio.producto_2.usuario.id %}">Visitar perfil del usuario</a></button>
+                        <form method="post" action="{% url 'Trueques:ver_trueques_en_espera_de_confirmacion' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="aceptar">
+                            <input type="hidden" name="intercambio_id" value="{{ intercambio.id }}">
+                            <button type="submit" class="btn btn-danger">Aceptar</button>
+                        </form>
+                        <button type="button" class="btn btn-info" onclick="mostrarMotivos('{{ intercambio.id }}')">Rechazar</button>
+                    </div>
+                </li>
+            </ul>
+
+            
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <p>No hay intercambios en espera de confirmación.</p>
+{% endif %}
+
+<script>
+function mostrarMotivos(intercambioId) {
+    var divMotivos = document.getElementById('motivos-' + intercambioId);
+    if (divMotivos) {
+        divMotivos.style.display = 'block';
+    }
+}
+</script>
+
+<style>
+/* Estilos para el contenedor del formulario de motivos */
+.motivos-rechazo {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+/* Estilos para el select y los botones dentro del formulario */
+.motivos-rechazo select,
+.motivos-rechazo button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.motivos-rechazo button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.motivos-rechazo button:hover {
+    background-color: #0056b3;
+}
+</style>
+{% endblock %}

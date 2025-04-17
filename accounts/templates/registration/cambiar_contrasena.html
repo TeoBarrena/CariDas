@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <h1>Cambie su contraseña</h1>
+    <form method="POST">
+        {% if error_passwords_distintas %}
+            <h4>Las contraseñas ingresadas no coinciden</h4>
+        {% endif %}
+        {% if error_password_invalida %}
+            <h4>La contraseña debe tener minimo 6 caracteres y ser alfanumerica, ej: Hola123</h4>
+        {% endif %}
+        {% if messages %}
+            <h2> {{ message }} </h2>
+        {% endif %}
+        {% csrf_token %}
+        <h4>Ingrese su nueva contraseña</h4>
+        <input type="password" name="password1" required="true">
+        <h4>Repita su contraseña</h4>
+        <input type="password" name="password2" required="true">
+        <input type="hidden" name="mail" value="{{ mail }}">
+        <input type="submit" value="Enviar">
+    </form>
+
+{% endblock %}

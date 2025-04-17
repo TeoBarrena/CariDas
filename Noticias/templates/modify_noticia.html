@@ -1,0 +1,23 @@
+<!-- modificar_noticia.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% csrf_token %}
+
+<link rel="stylesheet" href="{% static 'styles/mainAgregar_noticias.css' %}">
+<header id="main-header">
+    <div class="container">
+        <h1>Modificar Noticia</h1>
+    </div>
+</header>
+<div class="container">
+    <form method="post" enctype="multipart/form-data"> 
+        {% csrf_token %}
+        <input type="hidden" name="noticia_id" value="{{ noticia_id }}">
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+        <a href="{% url 'Pantalla_principal:Pantalla_principal' %}">Volver</a>
+    </form>
+</div>
+{% endblock %}

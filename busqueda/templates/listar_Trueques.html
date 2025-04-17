@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'listar_Trueques.css' %}">
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'Usuario:show_productos_usuario' %}" class="Navegation"> Mis Productos </a></li>
+            <li><a href="{% url 'Usuario:show_trueques_usuario' %}" class="Navegation"> Mis Trueques </a></li>
+            <li><a href="{% url 'busqueda:listar_Trueques' %}" class="Navegation"> Buscar Trueques </a></li>
+            <li><a href="{% url 'Intercambiar_puntos:seleccionar_categoria' %}" class="Navegation"> Intercambiar Puntos </a></li>
+            <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}"> Volver </a></li>
+        </ul>
+    </div>
+    <div class="linea-vertical"></div>
+    <div class="contenido">
+        <h1>Lista de Trueques Disponibles</h1>
+        <form method="get" action="{% url 'busqueda:listar_Trueques' %}">
+            <label for="q">Buscar:</label>
+            <input type="text" id="q" name="q" value="{{ query|default:'' }}"
+                placeholder="Buscar por título o descripción">
+            <button type="submit">Buscar</button>
+        </form>
+
+        <form method="get" action="{% url 'busqueda:listar_Trueques' %}">
+            <label for="estado">Estado:</label>
+            <select name="estado" id="estado">
+                <option value="" {% if not estado %}selected{% endif %}>Todos</option>
+                <option value="nuevo" {% if estado == "nuevo" %}selected{% endif %}>Nuevo</option>
+                <option value="usado - como nuevo" {% if estado == "usado - como nuevo" %}selected{% endif %}>Usado - Como
+                    nuevo</option>
+                <option value="usado - muy bueno" {% if estado == "usado - muy bueno" %}selected{% endif %}>Usado - Muy
+                    bueno</option>
+                <option value="usado - bueno" {% if estado == "usado - bueno" %}selected{% endif %}>Usado - Bueno</option>
+                <option value="usado - aceptable" {% if estado == "usado - aceptable" %}selected{% endif %}>Usado -
+                    Aceptable</option>
+            </select>
+
+            <label for="categoria">Categoría:</label>
+            <select name="categoria" id="categoria">
+                <option value="" {% if not categoria_id %}selected{% endif %}>Todas</option>
+                {% for categoria in categorias %}
+                <option value="{{ categoria.id }}" {% if categoria.id|stringformat:"s" == categoria_id %}selected{% endif %}>{{ categoria.nombre }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Filtrar</button>
+            <a href="{% url 'busqueda:listar_Trueques' %}">
+                <button type="button">Eliminar filtros</button>
+            </a>
+        </form>
+
+
+        <div class="contenido2">
+            {% if trueques %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Categoría del Producto</th>
+                        <th>Foto</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trueque in trueques %}
+                        <tr>
+                            <td>{{ trueque.titulo }}</td>
+                            <td>{{ trueque.descripcion }}</td>
+                            <td>{{ trueque.producto.categoria.nombre }}</td>
+                            <td>
+                                <img src="{{ trueque.foto_producto.url }}" alt="{{ trueque.titulo }}" style="width: 100px; height: auto;">
+                            </td>
+                            <td>{{ trueque.get_estado_display }}</td>
+                            <td><a href="{% url 'Trueques:almacenar_trueque' trueque.id %}">Ofertar producto</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="color: red;">No hay trueques que cumplan lo pedido.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

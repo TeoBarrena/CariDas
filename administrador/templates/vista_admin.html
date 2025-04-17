@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/vista_admin.css' %}">
+<title>Vista del administrador</title>
+
+
+
+<div class="container">
+    <div class="botones">
+        <ul>
+            <li><a href="{% url 'registrar_ayudante' %}" class="Navegation">Registrar un Ayudante</a></li>
+            <li><a href="{% url 'seleccionar' %}" class="Navegation">Historial del Sistema</a></li>
+            <li><a href="{% url 'Filiales:list_filiales' %}" class="Navegation">Listar Filiales</a></li>
+            <li><a href="{% url 'Productos:list_category' %}" class="Navegation">Listar categorias</a></li>
+            <li><a href="{% url 'Estadisticas:view_statistics' %}" class="Navegation">Ver estadisticas</a></li>
+        </ul>
+    </div>
+
+</div>
+
+{% endblock %}

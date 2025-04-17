@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <div class="bienvenida">
+        <h1>Inicio Sesion</h1>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        <section class="form-log-in">
+            {% csrf_token %}
+            {% if messages %}
+                <ul class="messages" style="list-style: none;">
+                    {% for message in messages %}
+                        <b><li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li></b>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% for field in form %} <!--Para que aparezca cada campo solo con su placeholder y no con su nombre-->
+                
+                {{ field }}
+    
+            {% endfor %}
+        
+            <div class="registrarse_ingresar">
+                <a href="{% url 'accounts:registrar_usuario' %}">¿No estas registrado?</a>
+                <button type="submit" class="ingresar"> 
+                    Ingresar
+                </button>
+                <a href="{% url 'accounts:reestablecer_contrasena' %}">¿Olvidaste tu contraseña?</a>
+            </div>
+        </section>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+
+/* trueque.css */
+.producto-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas*/
+    gap: 20px; /* Espacio entre las columnas*/
+}
+
+.producto-original {
+    border: 2px solid rgb(247, 45, 45);
+    padding: 20px;
+    height: auto;
+}
+
+.productos-usuario ul {
+    list-style-type: none; /* Pra q no aparezcan los puntso negros */
+}
+
+.productos-usuario {
+    margin-top: -35px;
+    padding: 20px;
+    overflow-y: auto; /* Hacer que la sección sea desplazable verticalmente si hay muchos productos */
+}
+
+.producto {
+    border: 2px solid rgb(247, 45, 45);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.producto img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+
+}
+
+.img_original{
+    max-height: 200px;
+    min-height: auto;
+}

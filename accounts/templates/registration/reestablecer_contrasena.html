@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <h1>REESTABLECER CONTRASEÑA</h1>
+    <form action="#" method="POST">
+        {% csrf_token %}
+        {% if error %}
+            <h4>El mail ingresado no pertenece a un usuario registrado</h4>
+        {% endif %}
+        <h3>Ingrese el mail al que le enviaremos el codigo para reestablecer su contraseña</h3>
+        <input type="email" name="mail" placeholder="doc@example.com" required="true">
+        <input type="submit" value="Enviar">
+    </form>
+{% endblock %}

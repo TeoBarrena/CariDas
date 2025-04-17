@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'Ayudante:Ver_Trueques_filial' %}" class="Navegation"> Ver Trueques Filial </a></li>
+            <li><a href="{% url 'Ayudante:Validar_ticket_usuario' %}" class="Navegation"> Validar Ticket usuario </a></li>
+            <li><a href="{% url 'Ayudante:validar_codigo_trueque' %}" class="Navegation active">Validar Código Trueque</a></li>
+            <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}"> Volver </a></li>
+        </ul>
+    </div>    
+    <div class="linea-vertical"></div>
+    <div class="contenido">
+        <h1>Lista de Trueques</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Producto</th>
+                    <th>Descripción</th>
+                    <th>Estado del Producto</th>
+                    <th>Foto del Producto</th>
+                    <th>Estado del Trueque</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trueque in trueques %}
+                    <tr>
+                        <td>{{ trueque.titulo }}</td>
+                        <td>{{ trueque.producto }}</td>
+                        <td>{{ trueque.descripcion }}</td>
+                        <td>{{ trueque.estado }}</td>
+                        <td><img src="{{ trueque.foto_producto.url }}" alt="{{ trueque.titulo }}" style="width: 100px; height: auto;"></td>
+                        <td>{{ trueque.estado_trueque }}</td>
+                        <td>
+                            <form method="post" action="{% url 'Ayudante:Ver_Trueques_filial' %}" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="trueque_id" value="{{ trueque.id }}">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if messages %}
+            <div class="alert">
+                {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

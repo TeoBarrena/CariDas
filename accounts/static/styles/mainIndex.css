@@ -1,0 +1,39 @@
+.bienvenida {
+    color: #000000; 
+    text-decoration: none;
+    font-family: 'Montserrat', Times, serif;
+    border-radius: 50px; 
+}
+
+.username {
+    margin: auto;
+    display:block;
+}
+
+.password {
+    margin: auto;
+    display:inline;
+    margin-top: 10px;
+}
+
+.ingresar{
+    margin-left: 43.7%;
+    margin-top: 10px;
+}
+
+.registrarse_ingresar{
+    height: 30px;
+}
+
+.registrarse_ingresar a{
+    margin: auto;
+    font-size: 15px;
+}
+
+.registrarse_ingresar button{
+    margin-left: 10px;    
+}
+
+ul{
+    list-style:none;
+}

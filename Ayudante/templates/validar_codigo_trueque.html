@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/select.css' %}">
+<form method="post" enctype="multipart/form-data">
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="{% url 'Ayudante:Ver_Trueques_filial' %}" class="Navegation">Ver Trueques Filial</a></li>
+                <li><a href="{% url 'Ayudante:Validar_ticket_usuario' %}" class="Navegation active">Validar Ticket
+                        usuario</a></li>
+                <li><a href="{% url 'Ayudante:validar_codigo_trueque' %}" class="Navegation active">Validar Código
+                        Trueque</a></li>
+                <li><a href="{% url 'Pantalla_principal:Pantalla_principal' %}">Volver</a></li>
+            </ul>
+        </div>
+        <div class="linea-vertical"></div>
+        <div class="contenido">
+            <h1>Validación de codigos para un trueque</h1>
+            {% if trueque_completado %}
+            <h4>El trueque finalizó correctamente</h4>
+            {% endif %}
+            {% if error_dia %}
+            <h4>Error el dia registrado no equivale con el dia de hoy</h4>
+            {% endif %}
+            {% if error_filial %}
+            <h4>Error, la filial seleccionada para el trueque es otra</h4>
+            {% endif %}
+            {% if error %}
+            <h4>Error en la validacion del codigo de trueques</h4>
+            {% endif %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="field-wrapper">
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button class="button" type="submit">Confirmar</button>
+            </form>
+        </div>
+        <div class="mensaje-adicional mt-3">
+            <p>Si un usuario no se presentó, haga click <a href="{% url 'Ayudante:permitir_trueque' %}"
+                    class="btn btn-secondary">aquí</a></p>
+        </div>
+    </div>
+</form>
+{% endblock %}

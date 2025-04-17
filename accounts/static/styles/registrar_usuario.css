@@ -1,0 +1,87 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.img_caritas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover; /* Hace que la imagen cubra toda la página */
+    background-position: center; /* Centra la imagen */
+}
+
+.form-register {
+    margin-top: 20px;
+    z-index: 1; /* Asegura que el formulario esté sobre la imagen */
+    padding: 20px;
+    background-color: white;
+    border: solid red;
+    border-radius: 15px;
+}
+
+.form-register h4{
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-top: 1px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.controls{
+    width: 90%;
+    background: #24303c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #1f53c5;
+    font-family: 'calibri';
+    font-size: 18px;
+    color: white;
+}
+
+.form-register p{
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+}
+
+.form-register a {
+    color: blue;
+    text-decoration: underline;
+    position: absolute;
+    bottom: auto; /* Ajusta según sea necesario */
+    margin-left: 56%;
+    transform: translateX(100%);
+    font-size: 16px;
+}
+
+.form-register a:hover{
+    color: blue;
+    text-decoration: underline;
+}
+
+.form-register button {
+    background-color: #e7dada;
+    border: none;
+    color: red;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: -1050px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+
+}
+
+.form-register button:hover {
+    background-color: rgb(47, 47, 236);
+}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/datos_filiales.css' %}">
+<div class="container mt-5">
+    <h1 class="mb-4">Estadísticas de Trueques</h1>
+
+    <h2>Trueques Aceptados</h2>
+    <ul>
+    {% for trueque in accepted_trueques %}
+        <li>
+        <strong>{{ trueque.titulo }} ({{ trueque.estado }})</strong><br>
+        <img src="{% static 'media/' %}{{ trueque.foto_producto }}" alt="{{ trueque.titulo }}" style="width: 100px; height: auto;">
+        <p>Descripción: {{ trueque.descripcion }}</p>
+        </li>
+    {% empty %}
+        <li class="empty-message">No hay trueques aceptados.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Trueques Cancelados</h2>
+    <ul>
+    {% for trueque in canceled_trueques %}
+        <li>
+        <strong>{{ trueque.titulo }} ({{ trueque.estado }})</strong><br>
+        <img src="{% static 'media/' %}{{ trueque.foto_producto }}" alt="{{ trueque.titulo }}" style="width: 100px; height: auto;">
+        <p>Descripción: {{ trueque.descripcion }}</p>
+        </li>
+    {% empty %}
+        <li class="empty-message">No hay trueques cancelados.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Trueques Pendientes</h2>
+    <ul>
+    {% for trueque in pending_trueques %}
+        <li>
+        <strong>{{ trueque.titulo }} ({{ trueque.estado }})</strong><br>
+        <img src="{% static 'media/' %}{{ trueque.foto_producto }}" alt="{{ trueque.titulo }}" style="width: 100px; height: auto;">
+        <p>Descripción: {{ trueque.descripcion }}</p>
+        </li>
+    {% empty %}
+        <li class="empty-message">No hay trueques pendientes.</li>
+    {% endfor %}
+    </ul>
+</div>
+
+
+<a href="{% url 'Filiales:select_filial' %}" class="volver">Volver</a>
+    
+
+{% endblock %}

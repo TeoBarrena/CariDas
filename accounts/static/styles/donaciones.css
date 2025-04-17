@@ -1,0 +1,51 @@
+h1{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+/* Estilo para el botón Donar */
+button[type="submit"] {
+    background-color: #ff4b5c; /* Rojo vibrante */
+    color: #ffffff; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Relleno del botón */
+    font-size: 16px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+/* Cambiar color al pasar el mouse sobre el botón */
+button[type="submit"]:hover {
+    background-color: #ff1e2d; /* Rojo más oscuro al pasar el mouse */
+}
+
+/* Efecto de sombra para darle profundidad al botón */
+button[type="submit"]:focus {
+    outline: none; /* Quitar el borde de enfoque predeterminado */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra alrededor del botón */
+}
+
+/* Estilo para el formulario */
+form {
+    display: flex;
+    flex-direction: column; /* Colocar los elementos en columna */
+    align-items: center; /* Alinear los elementos al centro */
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+/* Estilo para el input de monto */
+input[type="number"] {
+    padding: 10px;
+    border: 2px solid #007bff; /* Borde azul */
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100px; /* Ancho del campo */
+}
+
+/* Estilo para la etiqueta del monto */
+label[for="monto"] {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333; /* Color del texto */
+}

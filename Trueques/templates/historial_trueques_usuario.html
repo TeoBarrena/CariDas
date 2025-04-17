@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Historial de Trueques</h1>
+
+  <h2>Trueques Aceptados</h2>
+  <ul>
+    {% for trueque in accepted_trueques %}
+      <li>
+        {{ trueque.titulo }} ({{ trueque.estado }})
+        <p>Producto: {{ trueque.producto.nombre }}</p>
+        <p>Descripción: {{ trueque.descripcion }}</p>
+      </li>
+    {% empty %}
+      <li>No hay trueques aceptados.</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Trueques Cancelados</h2>
+  <ul>
+    {% for trueque in canceled_trueques %}
+      <li>
+        {{ trueque.titulo }} ({{ trueque.estado }})
+        <p>Producto: {{ trueque.producto.nombre }}</p>
+        <p>Descripción: {{ trueque.descripcion }}</p>
+      </li>
+    {% empty %}
+      <li>No hay trueques cancelados.</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Trueques Pendientes</h2>
+  <ul>
+    {% for trueque in pending_trueques %}
+      <li>
+        {{ trueque.titulo }} ({{ trueque.estado }})
+        <p>Producto: {{ trueque.producto.nombre }}</p>
+        <p>Descripción: {{ trueque.descripcion }}</p>
+      </li>
+    {% empty %}
+      <li>No hay trueques pendientes.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

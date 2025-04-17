@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/mainNotificaciones.css' %}">
+<h2>Notificaciones</h2>
+<div class="container">
+    <ul>
+        {% for notificacion in notificaciones %}
+        <div class="Articulos">
+            <time>{{ notificacion.fecha_creacion|date:"d M Y H:i" }}</time>
+            {{ notificacion.mensaje }} 
+            <form method="post" action="{% url 'Pantalla_principal:delete_notificacion' %}" class="delete-form">
+                {% csrf_token %}
+                <input type="hidden" name="notificacion_id" value="{{ notificacion.id }}">
+                <button type="submit" class="delete-button">
+                    <img id="Eliminar" src="{% static 'basura.png' %}" alt="Eliminar" class="delete-icon">
+                </button>
+            </form>
+        </div>
+        {% empty %}
+            <li>No tienes notificaciones.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
